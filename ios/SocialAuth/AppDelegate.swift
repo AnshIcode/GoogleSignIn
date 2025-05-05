@@ -1,11 +1,14 @@
 import UIKit
+import GoogleSignIn
 import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
+import Firebase
 
 @main
 class AppDelegate: RCTAppDelegate {
   override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+      FirebaseApp.configure()
     self.moduleName = "SocialAuth"
     self.dependencyProvider = RCTAppDependencyProvider()
 
@@ -19,6 +22,7 @@ class AppDelegate: RCTAppDelegate {
   override func sourceURL(for bridge: RCTBridge) -> URL? {
     self.bundleURL()
   }
+  
 
   override func bundleURL() -> URL? {
 #if DEBUG
@@ -27,4 +31,8 @@ class AppDelegate: RCTAppDelegate {
     Bundle.main.url(forResource: "main", withExtension: "jsbundle")
 #endif
   }
+  override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+     // Add any other URL handlers you're using (e.g. Facebook SDK)
+     return GIDSignIn.sharedInstance.handle(url)
+   }
 }
