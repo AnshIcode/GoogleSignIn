@@ -5,25 +5,12 @@
  * @format
  */
 
-import type {PropsWithChildren} from 'react';
 import React, {useEffect} from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {StatusBar, StyleSheet, Text, useColorScheme, View} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {googleConfigure} from './src/helpers/helper';
-import {
-  GoogleSignin,
-  isErrorWithCode,
-  isSuccessResponse,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
+import {useFirebaseCollections} from './src/hooks/useFirebaseCollections';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -33,39 +20,46 @@ function App(): React.JSX.Element {
   };
 
   useEffect(() => {
-  googleConfigure()
+    googleConfigure();
   }, []);
 
-  const handleOnPress = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const response = await GoogleSignin.signIn();
-      if (isSuccessResponse(response)) {
-        console.log('response', response);
-      } else {
-        // sign in was cancelled by user
-      }
-    } catch (error) {
-      if (isErrorWithCode(error)) {
-        console.log('error', error);
-        switch (error.code) {
-          case statusCodes.IN_PROGRESS:
-            // operation (eg. sign in) already in progress
-            break;
-          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-            // Android only, play services not available or outdated
-            break;
-          default:
-          // some other error happened
-        }
-      } else {
-        // an error that's not related to google sign in occurred
-      }
-    } finally {
-      console.log('finally');
-    }
-  };
+  // const {googleSignIn} = useFirebaseAuthentication();
+  const {
+    deleteFirebaseCollectionDoc,
+    getFirebaseCollection,
+    createSubCollectionInFirestore,
+    getSubCollectionFromFirestore,
+    updateSubCollectionInFirestore
+  } = useFirebaseCollections();
+  const aaa = async () => {
+    // const res = await deleteFirebaseCollectionDoc({
+    //     collectionName: 'users',
+    //     docId: 'random',
+    //   });
+    //   console.log('res', res)
 
+    // const ggg = await createSubCollectionInFirestore({
+    //   docId: 'random',
+    //   mainCollectionName: 'users',
+    //   subCollectionName: 'subUser',
+    //   data: {
+    //     aja: 'ppl',
+    //   },
+    //   subDocId: 'randomSubId',
+    // });
+
+    const ggg = await updateSubCollectionInFirestore({
+      data:{
+        aja:"ssss",
+        okkk:"ssss"
+      },
+      docId: 'random',
+      mainCollectionName: 'users',
+      subCollectionName: 'subUser',
+      subDocId: 'randomSubId',
+    })
+    console.log('ggg', ggg);
+  };
   return (
     <>
       <StatusBar
@@ -73,31 +67,11 @@ function App(): React.JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <View style={{flex: 1, marginTop: 100}}>
-        <Text style={{color: 'red'}} onPress={handleOnPress}>
-          Hello Sigin
-        </Text>
+        {/* <GoogleSigninButton onPress={handleGoogleSiginIn} size={400} color="dark" /> */}
+        <Text onPress={aaa}>sigin up</Text>
       </View>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
