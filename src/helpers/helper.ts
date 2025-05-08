@@ -1,4 +1,4 @@
-import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import auth, {FacebookAuthProvider, FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {
   collection,
   deleteDoc,
@@ -11,6 +11,7 @@ import {
 } from '@react-native-firebase/firestore';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {db} from '..';
+import { AccessToken, LoginManager } from 'react-native-fbsdk-next';
 
 type AuthParams = {
   email: string;
@@ -79,6 +80,29 @@ export const googleSignIn = async (): Promise<AuthResult> => {
   }
 };
 
+export const facebookLogin = async () => {
+  const result = await LoginManager.logInWithPermissions([
+    'public_profile',
+    'email',
+  ]);
+  console.log('result', result);
+  if (result.isCancelled) {
+    throw 'User cancelled the login process';
+  }
+
+  // Once signed in, get the users AccessToken
+  const data = await AccessToken.getCurrentAccessToken();
+  console.log('data', data);
+  if (!data) {
+    throw 'Something went wrong obtaining access token';
+  }
+
+  const facebookCred = FacebookAuthProvider.credential(data.accessToken)
+  const response = await auth().signInWithCredential(facebookCred)
+  console.log('response', response)
+};
+
+
 export const createFirebaseCollection = async ({
   collectionName,
   payload,
@@ -95,6 +119,7 @@ export const createFirebaseCollection = async ({
   } catch (error) {
     console.log('error', error);
     return false;
+
   }
 };
 export const updateFirebaseCollection = async ({

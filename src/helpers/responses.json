@@ -1,0 +1,33 @@
+//  response of facebook login --->
+ {
+	"additionalUserInfo": {
+		"isNewUser": true,
+		"profile": {
+			"email": "ansh.sharma@icodelabs.co",
+			"first_name": "Ansh",
+			"id": "122094410906874934",
+			"last_name": "Sharma",
+			"name": "Ansh Sharma",
+			"picture": [Object
+			]
+		},
+		"providerId": "facebook.com"
+	},
+	"user": {
+		"displayName": "Ansh Sharma",
+		"email": "ansh.sharma@icodelabs.co",
+		"emailVerified": false,
+		"isAnonymous": false,
+		"metadata": [Object
+		],
+		"multiFactor": [Object
+		],
+		"phoneNumber": null,
+		"photoURL": "https://graph.facebook.com/122094410906874934/picture",
+		"providerData": [Array
+		],
+		"providerId": "firebase",
+		"tenantId": null,
+		"uid": "uQzXBHW2iuPcP0p46yGe3n0u4Dt1"
+	}
+}

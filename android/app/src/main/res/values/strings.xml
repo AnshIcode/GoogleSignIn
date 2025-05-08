@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SocialAuth</string>
+    <string name="facebook_app_id">1427982301978416</string>
+<string name="facebook_client_token">a625f8db6d63cb9507453ca27207fd40</string>
 </resources>
