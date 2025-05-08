@@ -1,43 +1,259 @@
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {
-  GoogleSignin,
-  isErrorWithCode,
-  isSuccessResponse,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
+  collection,
+  deleteDoc,
+  doc,
+  FirebaseFirestoreTypes,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from '@react-native-firebase/firestore';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {db} from '..';
 
-export const googleConfigure = () => {
-  GoogleSignin.configure({
-    webClientId:
-      '223696926651-n3j9ik166e9rc2ohs8ulur1qhlvhusc8.apps.googleusercontent.com',
-    // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.
-    offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
-    hostedDomain: '', // specifies a hosted domain restriction
-    forceCodeForRefreshToken: false, // [Android] related to `serverAuthCode`, read the docs link below *.
-    accountName: '', // [Android] specifies an account name on the device that should be used
-    iosClientId:
-      '223696926651-h73id5tnc6ojjvj5piaevga0otg52jvo.apps.googleusercontent.com',
-    // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
-  });
+type AuthParams = {
+  email: string;
+  password: string;
 };
 
-export const handleGoogleSiginIn = async () => {
+type AuthResult = {
+  response?: FirebaseAuthTypes.UserCredential;
+  error?: string;
+};
+
+export const signUpWithEmailAndPassword = async ({
+  email,
+  password,
+}: AuthParams): Promise<AuthResult> => {
+  try {
+    const response = await auth().createUserWithEmailAndPassword(
+      email,
+      password,
+    );
+    return {response: response};
+  } catch (err: any) {
+    const errorMessage = err?.message || 'An error occurred during sign-up.';
+    return {error: errorMessage};
+  }
+};
+
+export const logInWithEmailAndPassword = async ({
+  email,
+  password,
+}: AuthParams): Promise<AuthResult> => {
+  try {
+    const response = await auth().signInWithEmailAndPassword(email, password);
+    return {response: response};
+  } catch (err: any) {
+    const errorMessage = err?.message || 'An error occurred during login.';
+    return {error: errorMessage};
+  }
+};
+
+export const logOut = async (): Promise<{error?: string}> => {
+  try {
+    await auth().signOut();
+    return {};
+  } catch (err: any) {
+    const errorMessage = err?.message || 'An error occurred during logout.';
+    return {error: errorMessage};
+  }
+};
+export const googleSignIn = async (): Promise<AuthResult> => {
   try {
     await GoogleSignin.hasPlayServices();
-    const response = await GoogleSignin.signIn();
-    if (isSuccessResponse(response)) {
-      console.log('response', response);
-      return response;
+    const userInfo = await GoogleSignin.signIn();
+    if (!userInfo?.data) {
+      return {error: 'An error occurred during Google Sign-In.'};
+    }
+    const googleCredential = auth.GoogleAuthProvider.credential(
+      userInfo?.data?.idToken,
+    );
+    const response = await auth().signInWithCredential(googleCredential);
+    return {response: response};
+  } catch (err: any) {
+    const errorMessage =
+      err?.message || 'An error occurred during Google Sign-In.';
+    return {error: errorMessage};
+  }
+};
+
+export const createFirebaseCollection = async ({
+  collectionName,
+  payload,
+  docId,
+}: {
+  collectionName: string;
+  payload: object;
+  docId: string;
+}): Promise<Boolean> => {
+  try {
+    const docRef = doc(db, collectionName, docId);
+    await setDoc(docRef, payload);
+    return true;
+  } catch (error) {
+    console.log('error', error);
+    return false;
+  }
+};
+export const updateFirebaseCollection = async ({
+  collectionName,
+  payload,
+  docId,
+}: {
+  collectionName: string;
+  payload: object;
+  docId: string;
+}): Promise<Boolean> => {
+  try {
+    const docRef = doc(db, collectionName, docId);
+    await updateDoc(docRef, payload);
+    return true;
+  } catch (error) {
+    console.log('error', error);
+    return false;
+  }
+};
+export const deleteFirebaseCollectionDoc = async ({
+  docId,
+  collectionName,
+}: {
+  collectionName: string;
+  docId: string;
+}): Promise<Boolean> => {
+  try {
+    await deleteDoc(doc(db, collectionName, docId));
+    return true;
+  } catch (error) {
+    console.log('error', error);
+    return false;
+  }
+};
+
+export const getFirebaseCollection = async ({
+  collectionName,
+  docId,
+}: {
+  collectionName: string;
+  docId: string;
+}): Promise<false | FirebaseFirestoreTypes.DocumentData | undefined> => {
+  try {
+    const docRef = doc(db, collectionName, docId);
+    const res = await getDoc(docRef);
+    if (res.exists()) {
+      return {
+        ...res.data(),
+      };
     } else {
-      // sign in was cancelled by user
       return false;
     }
   } catch (error) {
-    if (isErrorWithCode(error)) {
-      console.log('error', error);
-      return error;
-    } else {
-      // an error that's not related to google sign in occurred
-      return false;
-    }
+    console.log('error', error);
+    return false;
+  }
+};
+
+export const createSubCollectionInFirestore = async ({
+  mainCollectionName,
+  subCollectionName,
+  docId,
+  subDocId,
+  data,
+}: {
+  mainCollectionName: string;
+  subCollectionName: string;
+  docId: string;
+  subDocId: string;
+  data: object;
+}) => {
+  try {
+    const subDocRef = doc(
+      collection(db, `${mainCollectionName}/${docId}/${subCollectionName}`),
+      subDocId,
+    );
+    await setDoc(subDocRef, data);
+    return true;
+  } catch (error) {
+    console.log('error', error);
+    return false;
+  }
+};
+export const updateSubCollectionInFirestore = async ({
+  mainCollectionName,
+  subCollectionName,
+  docId,
+  subDocId,
+  data,
+}: {
+  mainCollectionName: string;
+  subCollectionName: string;
+  docId: string;
+  subDocId: string;
+  data: object;
+}) => {
+  try {
+    const subDocRef = doc(
+      collection(db, `${mainCollectionName}/${docId}/${subCollectionName}`),
+      subDocId,
+    );
+    await updateDoc(subDocRef, data);
+    return true;
+  } catch (error) {
+    console.log('error', error);
+    return false;
+  }
+};
+
+export const getSubCollectionFromFirestore = async ({
+  mainCollectionName,
+  subCollectionName,
+  docId,
+}: {
+  mainCollectionName: string;
+  subCollectionName: string;
+  docId: string;
+}) => {
+  try {
+    const subColRef = collection(
+      db,
+      `${mainCollectionName}/${docId}/${subCollectionName}`,
+    );
+
+    const snapshot = await getDocs(subColRef);
+    const docs = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return docs;
+  } catch (error) {
+    console.log('error', error);
+    return false;
+  }
+};
+
+export const deleteSubCollectionFromFirestore = async ({
+  mainCollectionName,
+  subCollectionName,
+  docId,
+  subDocId,
+}: {
+  mainCollectionName: string;
+  subCollectionName: string;
+  docId: string;
+  subDocId: string;
+}) => {
+  try {
+    await deleteDoc(
+      doc(
+        db,
+        `${mainCollectionName}/${docId}/${subCollectionName}/${subDocId}`,
+      ),
+    );
+    return true;
+  } catch (error) {
+    console.log('error', error);
+    return false;
   }
 };

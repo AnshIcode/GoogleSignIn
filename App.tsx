@@ -9,8 +9,8 @@ import React, {useEffect} from 'react';
 import {StatusBar, StyleSheet, Text, useColorScheme, View} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {googleConfigure} from './src/helpers/helper';
-import {useFirebaseCollections} from './src/hooks/useFirebaseCollections';
+import { googleConfigure } from './src/helpers/configFile';
+import { deleteSubCollectionFromFirestore } from './src/helpers/helper';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -23,14 +23,6 @@ function App(): React.JSX.Element {
     googleConfigure();
   }, []);
 
-  // const {googleSignIn} = useFirebaseAuthentication();
-  const {
-    deleteFirebaseCollectionDoc,
-    getFirebaseCollection,
-    createSubCollectionInFirestore,
-    getSubCollectionFromFirestore,
-    updateSubCollectionInFirestore
-  } = useFirebaseCollections();
   const aaa = async () => {
     // const res = await deleteFirebaseCollectionDoc({
     //     collectionName: 'users',
@@ -48,15 +40,22 @@ function App(): React.JSX.Element {
     //   subDocId: 'randomSubId',
     // });
 
-    const ggg = await updateSubCollectionInFirestore({
-      data:{
-        aja:"ssss",
-        okkk:"ssss"
-      },
-      docId: 'random',
-      mainCollectionName: 'users',
-      subCollectionName: 'subUser',
-      subDocId: 'randomSubId',
+    // const ggg = await updateSubCollectionInFirestore({
+    //   data:{
+    //     aja:"ssss",
+    //     okkk:"ssss"
+    //   },
+    //   docId: 'random',
+    //   mainCollectionName: 'users',
+    //   subCollectionName: 'subUser',
+    //   subDocId: 'randomSubId',
+    // })
+
+    const ggg = await deleteSubCollectionFromFirestore({
+      docId:'random',
+      mainCollectionName:'users',
+      subCollectionName:'subUser',
+      subDocId:'randomSubId'
     })
     console.log('ggg', ggg);
   };
