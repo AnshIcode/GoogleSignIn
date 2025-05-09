@@ -6,12 +6,24 @@
  */
 
 import React, {useEffect} from 'react';
-import {StatusBar, Text, useColorScheme, View} from 'react-native';
+import {
+  DeviceEventEmitter,
+  StatusBar,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
 
+import {
+  LoginKit,
+  LoginState,
+  UserDataScopes,
+} from '@snapchat/snap-kit-react-native';
 import {Settings} from 'react-native-fbsdk-next';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {googleConfigure} from './src/helpers/configFile';
-import {facebookLogin} from './src/helpers/helper';
+import {useDeepLinking} from './src/helpers/hooks';
+import { handleSnapchatLogin } from './src/helpers/helper';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -26,42 +38,36 @@ function App(): React.JSX.Element {
     Settings.initializeSDK();
   }, []);
 
-  // const aaa = async () => {
-  //   // const res = await deleteFirebaseCollectionDoc({
-  //   //     collectionName: 'users',
-  //   //     docId: 'random',
-  //   //   });
-  //   //   console.log('res', res)
+ 
 
-  //   // const ggg = await createSubCollectionInFirestore({
-  //   //   docId: 'random',
-  //   //   mainCollectionName: 'users',
-  //   //   subCollectionName: 'subUser',
-  //   //   data: {
-  //   //     aja: 'ppl',
-  //   //   },
-  //   //   subDocId: 'randomSubId',
-  //   // });
+  
 
-  //   // const ggg = await updateSubCollectionInFirestore({
-  //   //   data:{
-  //   //     aja:"ssss",
-  //   //     okkk:"ssss"
-  //   //   },
-  //   //   docId: 'random',
-  //   //   mainCollectionName: 'users',
-  //   //   subCollectionName: 'subUser',
-  //   //   subDocId: 'randomSubId',
-  //   // })
 
-  //   const ggg = await deleteSubCollectionFromFirestore({
-  //     docId:'random',
-  //     mainCollectionName:'users',
-  //     subCollectionName:'subUser',
-  //     subDocId:'randomSubId'
-  //   })
-  //   console.log('ggg', ggg);
-  // };
+
+  useEffect(() => {
+    const loginStarted = DeviceEventEmitter.addListener(
+      LoginState.LOGIN_KIT_LOGIN_STARTED,
+      () => console.log('Snapchat login started'),
+    );
+
+    const loginSuccess = DeviceEventEmitter.addListener(
+      LoginState.LOGIN_KIT_LOGIN_SUCCEEDED,
+      () => console.log('Snapchat login succeeded'),
+    );
+
+    const loginFailed = DeviceEventEmitter.addListener(
+      LoginState.LOGIN_KIT_LOGIN_FAILED,
+      () => console.log('Snapchat login failed'),
+    );
+
+    return () => {
+      loginStarted.remove();
+      loginSuccess.remove();
+      loginFailed.remove();
+    };
+  }, []);
+
+  // useDeepLinking();
 
   return (
     <>
@@ -71,7 +77,7 @@ function App(): React.JSX.Element {
       />
       <View style={{flex: 1, marginTop: 100}}>
         {/* <GoogleSigninButton onPress={handleGoogleSiginIn} size={400} color="dark" /> */}
-        <Text onPress={facebookLogin}>sigin up</Text>
+        <Text onPress={handleSnapchatLogin}>sigin up</Text>
       </View>
     </>
   );

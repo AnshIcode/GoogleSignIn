@@ -1,4 +1,7 @@
-import auth, {FacebookAuthProvider, FirebaseAuthTypes} from '@react-native-firebase/auth';
+import auth, {
+  FacebookAuthProvider,
+  FirebaseAuthTypes,
+} from '@react-native-firebase/auth';
 import {
   collection,
   deleteDoc,
@@ -11,7 +14,9 @@ import {
 } from '@react-native-firebase/firestore';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {db} from '..';
-import { AccessToken, LoginManager } from 'react-native-fbsdk-next';
+import {AccessToken, LoginManager} from 'react-native-fbsdk-next';
+import {LoginKit, LoginState, UserDataScopes} from '@snapchat/snap-kit-react-native';
+import {DeviceEventEmitter} from 'react-native';
 
 type AuthParams = {
   email: string;
@@ -22,6 +27,19 @@ type AuthResult = {
   response?: FirebaseAuthTypes.UserCredential;
   error?: string;
 };
+
+const SNAPCHAT_USER_QUERY = `
+  query {
+  me {
+    externalId
+    displayName
+    profileLink
+    bitmoji {
+      avatar
+    }
+  }
+}
+`;
 
 export const signUpWithEmailAndPassword = async ({
   email,
@@ -97,11 +115,63 @@ export const facebookLogin = async () => {
     throw 'Something went wrong obtaining access token';
   }
 
-  const facebookCred = FacebookAuthProvider.credential(data.accessToken)
-  const response = await auth().signInWithCredential(facebookCred)
-  console.log('response', response)
+  const facebookCred = FacebookAuthProvider.credential(data.accessToken);
+  const response = await auth().signInWithCredential(facebookCred);
+  console.log('response', response);
 };
 
+//snapchat login------------------------->
+export const handleSnapchatLogin = async () => {
+  try {
+    console.log('Starting Snapchat login...');
+    await LoginKit.login(); // this only resolves if login succeeds
+    console.log('Snapchat login resolved');
+
+    const isLoggedIn = await LoginKit.isUserLoggedIn();
+    if (isLoggedIn) {
+      console.log('User is logged in via Snapchat');
+
+      const accessToken = await LoginKit.getAccessToken();
+      console.log('Snapchat access token:', accessToken);
+
+      await fetchSnapchatUserData();
+
+      // OPTIONAL: fetch user data with GraphQL here if needed
+    } else {
+      console.log('Login succeeded but user not marked as logged in');
+    }
+  } catch (e) {
+    console.log('Snapchat login error:', e);
+  }
+};
+
+const fetchSnapchatUserData = async () => {
+  try {
+    // Optional: check if you have access to the scopes
+    const hasDisplayName = await LoginKit.hasAccessToScope(
+      UserDataScopes.DISPLAY_NAME,
+    );
+    const hasBitmoji = await LoginKit.hasAccessToScope(
+      UserDataScopes.BITMOJI_AVATAR,
+    );
+    console.log('Has Display Name:', hasDisplayName);
+    console.log('Has Bitmoji Avatar:', hasBitmoji);
+
+    const userData = await LoginKit.fetchUserData(SNAPCHAT_USER_QUERY, null);
+
+    console.log('✅ Snapchat User Data:', userData);
+
+    if (userData.displayName) {
+      console.log('👤 Display Name:', userData.displayName);
+    }
+
+    if (userData.bitmojiAvatar) {
+      console.log('🧑‍🎨 Bitmoji Avatar URL:', userData.bitmojiAvatar);
+    }
+  } catch (e) {
+    console.error('❌ Failed to fetch Snapchat user data:', e);
+  }
+};
 
 export const createFirebaseCollection = async ({
   collectionName,
@@ -119,7 +189,6 @@ export const createFirebaseCollection = async ({
   } catch (error) {
     console.log('error', error);
     return false;
-
   }
 };
 export const updateFirebaseCollection = async ({
@@ -281,4 +350,21 @@ export const deleteSubCollectionFromFirestore = async ({
     console.log('error', error);
     return false;
   }
+};
+
+const extractUrlComponents = (url: string) => {
+  try {
+    const parsedUrl = new URL(url);
+    const pathname = parsedUrl.pathname;
+    const searchParams = Object.fromEntries(parsedUrl.searchParams.entries());
+
+    return {pathname, searchParams};
+  } catch (error) {
+    console.error('Error parsing URL:', error);
+    return null;
+  }
+};
+export const handleDeepLinks = (url: string) => {
+  const {pathname, searchParams} = extractUrlComponents(url) ?? {};
+  return {pathname, searchParams};
 };

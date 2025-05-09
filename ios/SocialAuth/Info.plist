@@ -58,5 +58,44 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>snapchat</string>
+		<string>bitmoji-sdk</string>
+		<string>itms-apps</string>
+	</array>
+<key>SCSDKClientId</key>
+	<string>b9e0bb85-4e66-493c-81c1-c58cccc311e9</string>
+	<key>SCSDKRedirectUrl</key>
+	<string>socialauth://main/auth</string>
+
+	<key>CFBundleURLTypes</key>
+	<array>
+       <dict>
+        	<key>CFBundleTypeRole</key>
+           	<string>Editor</string>
+
+		   	<key>CFBundleURLName</key>
+           	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		   
+			<!--
+               	Enter your redirect scheme below.
+               	For e.g. if your redirect url is "myapp://snap-kit/oauth2"
+				then the scheme is "myapp".
+           -->
+           <key>CFBundleURLSchemes</key>
+           <array>
+               <string>socialauth</string>
+           </array>
+       </dict>
+   </array>
+
+	<!-- TODO(5): Declare the resources that you want to request -->
+	<key>SCSDKScopes</key>
+	<array>
+		<string>https://auth.snapchat.com/oauth2/api/user.bitmoji.avatar</string>
+		<string>https://auth.snapchat.com/oauth2/api/user.display_name</string>
+	</array>
+
 </dict>
 </plist>

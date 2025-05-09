@@ -6,3 +6,4 @@
 //
 
 #import <GoogleSignIn/GoogleSignIn.h>
+#import <SCSDKLoginKit/SCSDKLoginKit.h>

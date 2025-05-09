@@ -10,6 +10,7 @@
       android:allowBackup="false"
       android:theme="@style/AppTheme"
       android:supportsRtl="true">
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
@@ -22,7 +23,37 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
-       <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
+      <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
       <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
+
+      <!-- Snapchat setup -->
+      <meta-data
+        android:name="com.snapchat.kit.sdk.clientId"
+        android:value="b9e0bb85-4e66-493c-81c1-c58cccc311e9" />
+      <meta-data
+        android:name="com.snapchat.kit.sdk.redirectUrl"
+        android:value="socialauth://main/auth" />
+      <meta-data
+        android:name="com.snapchat.kit.sdk.scopes"
+        android:resource="@array/snap_connect_scopes" />
+
+      <activity
+  android:name="com.snapchat.kit.sdk.SnapKitActivity"
+  android:launchMode="singleTask"
+  android:exported="true">
+  <intent-filter>
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data
+      android:scheme="socialauth"
+      android:host="main"
+      android:path="/auth" />
+  </intent-filter>
+</activity>
+
+
     </application>
+
 </manifest>

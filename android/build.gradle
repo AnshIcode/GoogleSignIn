@@ -18,6 +18,16 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
          classpath 'com.google.gms:google-services:4.4.2'
     }
+    allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url "https://storage.googleapis.com/snap-kit-build/maven"
+        }
+        
+    }
+}
 }
 
 apply plugin: "com.facebook.react.rootproject"

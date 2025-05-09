@@ -4,6 +4,7 @@ import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
 import Firebase
+import SCSDKLoginKit
 
 @main
 class AppDelegate: RCTAppDelegate {
@@ -32,6 +33,9 @@ class AppDelegate: RCTAppDelegate {
 #endif
   }
   override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+    if SCSDKLoginClient.application(app, open: url, options: options) {
+        return true
+      }
      // Add any other URL handlers you're using (e.g. Facebook SDK)
      return GIDSignIn.sharedInstance.handle(url)
    }
