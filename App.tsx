@@ -34,7 +34,7 @@ function App(): React.JSX.Element {
 
   useEffect(() => {
     googleConfigure();
-    Settings.setAppID('1427982301978416');
+    // Settings.setAppID('APP_ID'); <--- Replace your app id here
     Settings.initializeSDK();
   }, []);
 
