@@ -1,5 +1,5 @@
 //  response of facebook login --->
- {
+{
 	"additionalUserInfo": {
 		"isNewUser": true,
 		"profile": {
@@ -31,14 +31,28 @@
 		"uid": "uQzXBHW2iuPcP0p46yGe3n0u4Dt1"
 	}
 }
-
-
 // response of snapchat login
-
-
 // Snapchat access token: eyJpc3MiOiJodHRwczpcL1wvYWNjb3VudHMuc25hcGNoYXQuY29tXC9hY2NvdW50c1wvb2F1dGgyXC90b2tlbiIsInR5cCI6IkpXVCIsImVuYyI6IkExMjhDQkMtSFMyNTYiLCJhbGciOiJkaXIiLCJraWQiOiJhY2Nlc3MtdG9rZW4tYTEyOGNiYy1oczI1Ni4wIn0..K3Mq5_pZNmIaHHssBYgMFA.U61L7RiqfDQqYViPaZmd20ijweHvvU8vwO-wCvb3Shge0NH-EdqK_JsmwyIo4fY3WPAvyyCsOYYpK9_Wljh6Ojp1yH3B21STdJ_BobegJlsp0rAKerzO3aLu9s-DXuvKUvXhIKKI-EpWiSqkPeQj50Sqv432xfjjDVzO8yCLgzRFi8ZrCih1MeJ4gNDZK6SWh0t3PqFsGfboJKgeT0SSX6g7eM0tUALRL8vD2MtskVyb8YHvt0B-835KqaZg-Cc6AyHFc94BxHi9ID5iV4L-wl-opUE72rHZ239r1G0FAEPpsb6yW9PlVI5kI6F9jzKzzJf457nOsBGRmzrq4200qxuE4TMiTPUYs0-JO6yQoOr5ORjF_3PSQ7LIwbRKVpLcrAkGvew2i6aQ_ZGKdEW6-pNuQxVw6QuXE4eUAeLDXQITfZZUlbADYDfeuArRvDU-cah4ZIWyHUpcFgi1Zq71lsk7uX4VPXHd8KLHRqISULskWb_ZzQY5Q8_JfBzAPRz-7hw2KNI7ALz8xSbfQIioho1XdpcFUKOzjz1LHeyrEA_RHsewcDyrByd0Zf0D8ZRTqGkZNsii_5dKF0XCEadK4OkCJcbfCvwEDcDpLjodZQ3dzrAArlVFi3X4KMDzFMyk9yjmWJrMBoSI4Idevz-Ia9Sk90yE852cJg-VtiGCKVKILNPgDduOwsFO0z1_97CCaQkTuboWL03cg6sZDXEFD7ofb4cgkrCGXeJHauf6DTnBUGJUJeuHSI4idrZEcCUzrUjlPfKgpWVP_ntbnXAOEk1NXJVUKn58Q5TbonjXY_RaGsDF-QR1x3EwJFTyRlqWYGuF9C7n8YffEDgfxrrP6IEj2kGGN6zQ5XhgdA4KZvblepjuU4ieEM9ESjdb0g6hzagY0ihvfhpAonMUYD9q_Q.oHfiy8nMOISB8AEqwtKHsw
 // Has Display Name: true
 //  (NOBRIDGE) LOG  Has Bitmoji Avatar: true
 //  (NOBRIDGE) LOG  ✅ Snapchat User Data: {"bitmojiAvatar": "https://sdk.bitmoji.com/3d/render/10226021-P5orw541gICgz6jHQO7P_xjYmdBmY0pSj1DW9abrLJyoKAShoZVjMg-v1.png?trim=circle&ua=2", "displayName": "Ansh Sharma", "externalId": "CAESIMc42KQx15td9Vjv6h/Vcn9osL3IOkjc3ct9vnE8IKWe"}
 //  (NOBRIDGE) LOG  👤 Display Name: Ansh Sharma
 //  (NOBRIDGE) LOG  🧑‍🎨 Bitmoji Avatar URL: https://sdk.bitmoji.com/3d/render/10226021-P5orw541gICgz6jHQO7P_xjYmdBmY0pSj1DW9abrLJyoKAShoZVjMg-v1.png?trim=circle&ua=2
+
+
+
+
+//response of linkedin login
+{
+	"email": "ansh.sharma@icodelabs.co",
+	"email_verified": true,
+	"family_name": "Sharma",
+	"given_name": "Ansh Sharma",
+	"locale": {
+		"country": "US",
+		"language": "en"
+	},
+	"name": "Ansh Sharma Sharma",
+	"picture": "https://media.licdn.com/dms/image/v2/D5603AQE_3WTuuXZx5Q/profile-displayphoto-shrink_200_200/B56ZbDT42gGoAY-/0/1747033493205?e=1752710400&v=beta&t=M_82LZjjqjhHMY3h88rrFd8o0ASz373MB1twpTwiVes",
+	"sub": "HAjcrcvKxu"
+}

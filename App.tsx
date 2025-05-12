@@ -24,6 +24,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {googleConfigure} from './src/helpers/configFile';
 import {useDeepLinking} from './src/helpers/hooks';
 import { handleSnapchatLogin } from './src/helpers/helper';
+import LinkedInLogin from './src/Components/LinkedinLogin';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -78,6 +79,7 @@ function App(): React.JSX.Element {
       <View style={{flex: 1, marginTop: 100}}>
         {/* <GoogleSigninButton onPress={handleGoogleSiginIn} size={400} color="dark" /> */}
         <Text onPress={handleSnapchatLogin}>sigin up</Text>
+        {/* <LinkedInLogin/> */}
       </View>
     </>
   );
