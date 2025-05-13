@@ -56,3 +56,13 @@
 	"picture": "https://media.licdn.com/dms/image/v2/D5603AQE_3WTuuXZx5Q/profile-displayphoto-shrink_200_200/B56ZbDT42gGoAY-/0/1747033493205?e=1752710400&v=beta&t=M_82LZjjqjhHMY3h88rrFd8o0ASz373MB1twpTwiVes",
 	"sub": "HAjcrcvKxu"
 }
+
+
+//response of twittter login
+
+
+(NOBRIDGE) LOG  result {"type": "success", "url": "socialauth://oauth?state=b69d05b5-7425-46eb-be5c-cafcaa9b3619&code=bW94dFpyMHY2MEdZb05qcjR0REpxSlJ3ZFpTbE1jdDJCb3lpcktPbl9KMmpUOjE3NDcwNDc1MjY2Njc6MTowOmFjOjE"}
+(NOBRIDGE) LOG  code bW94dFpyMHY2MEdZb05qcjR0REpxSlJ3ZFpTbE1jdDJCb3lpcktPbl9KMmpUOjE3NDcwNDc1MjY2Njc6MTowOmFjOjE
+(NOBRIDGE) LOG  Token response: {"access_token": "aXItaVNXcXlway1wbVppc1UwN1FjdFlVSGUtWFdaNkNmM2hPOGFWSVRIUWtPOjE3NDcwNDc1NDU2NzI6MToxOmF0OjE", "expires_in": 7200, "refresh_token": "NmRzNDJ6TWt1TWxoUDU2YkJZd01WbTBlbE1BZFpKNy1NekFGejVVdU9yNkxtOjE3NDcwNDc1NDU2NzI6MToxOnJ0OjE", "scope": "users.read tweet.read offline.access", "token_type": "bearer"}
+(NOBRIDGE) LOG  tokenResponse {"access_token": "aXItaVNXcXlway1wbVppc1UwN1FjdFlVSGUtWFdaNkNmM2hPOGFWSVRIUWtPOjE3NDcwNDc1NDU2NzI6MToxOmF0OjE", "expires_in": 7200, "refresh_token": "NmRzNDJ6TWt1TWxoUDU2YkJZd01WbTBlbE1BZFpKNy1NekFGejVVdU9yNkxtOjE3NDcwNDc1NDU2NzI6MToxOnJ0OjE", "scope": "users.read tweet.read offline.access", "token_type": "bearer"}
+(NOBRIDGE) LOG  Full Twitter user data: {"data": {"created_at": "2024-03-04T12:15:46.000Z", "description": "", "id": "1764625730200109056", "name": "Ansh Sharma", "profile_image_url": "https://pbs.twimg.com/profile_images/1764625781760638976/u3dbv-Oc_normal.png", "public_metrics": {"followers_count": 0, "following_count": 1, "like_count": 29, "listed_count": 0, "media_count": 0, "tweet_count": 35}, "username": "AnshSharma66314", "verified": false}}

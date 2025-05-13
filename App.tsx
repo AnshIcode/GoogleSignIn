@@ -25,6 +25,7 @@ import {googleConfigure} from './src/helpers/configFile';
 import {useDeepLinking} from './src/helpers/hooks';
 import { handleSnapchatLogin } from './src/helpers/helper';
 import LinkedInLogin from './src/Components/LinkedinLogin';
+import TwitterLogin from './src/Components/TwitterLogin';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -80,6 +81,7 @@ function App(): React.JSX.Element {
         {/* <GoogleSigninButton onPress={handleGoogleSiginIn} size={400} color="dark" /> */}
         <Text onPress={handleSnapchatLogin}>sigin up</Text>
         {/* <LinkedInLogin/> */}
+        <TwitterLogin/>
       </View>
     </>
   );
