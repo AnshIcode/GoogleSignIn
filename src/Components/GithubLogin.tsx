@@ -4,8 +4,8 @@ import React from 'react';
 import {Alert, Button} from 'react-native';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 
-const CLIENT_ID = 'Ov23liiU0BcxyGhmWyRV';
-const CLIENT_SECRET = '86eb5388d3699a9e748e8037793def56b255e282'; // ⚠️ For development only
+const CLIENT_ID = 'aaa';
+const CLIENT_SECRET = 'bb'; // ⚠️ For development only
 
 export default function GitHubLogin() {
   const handleLogin = async () => {
